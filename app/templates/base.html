@@ -1,0 +1,20 @@
+<html>
+<head>
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/styles_ico.css') }}">
+	<link rel="preload" href="{{ url_for('static', filename='font/charter-regular.woff2') }}" as="font" type="font/woff2">
+
+	<title>
+		{% block title %}
+	{% endblock %} | BLOG</title>
+</head>
+<body>
+	<div class="container">
+		{% block content_title %}
+		{% endblock %}
+
+		{% block content %}
+		{% endblock %}
+	</div>
+</body>
+</html>

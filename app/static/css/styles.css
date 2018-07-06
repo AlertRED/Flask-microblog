@@ -1,0 +1,101 @@
+
+
+html{
+	font-family: system-ui, "Trebuchet MS", "Helvetica Neue", "Arial", sans-serif;
+	font-size: 22px;
+}
+
+a{
+	color: #06c;
+}
+
+a:hover{
+	color: #61B;
+}
+
+/*ФОРМА ЛОГИНА*/
+.field_login , .field_password{
+	border-radius: 6px;
+	height: 40px;
+	padding-left: 20px;
+	font-size: 0.7em;
+}
+
+.remember_me{
+	font-size: 0.7em;
+}
+
+.submit_button{
+	background-color: #ea4c88;
+	color: #eee; 
+	font-weight: bold; 
+	height: 40px;
+	border-radius: 3px;
+	font-size: 0.7em;
+	border: none;
+	cursor: pointer;
+	width: 100%;
+}
+/*ФОРМА ЛОГИНА*/
+
+
+.block {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-49%, -50%);
+}
+
+.container {
+	font-size: 100%;
+	padding: 0 60px;
+	max-width: 720px;
+	margin: 0 auto;
+	margin-top: 0px;
+	margin-right: auto;
+	margin-bottom: 0px;
+	margin-left: auto;
+}
+/*ABOUT ME*/
+.about-me-tittle{
+	margin-bottom: 10px;
+	font-size: 1.1em;
+	font-weight: bold;
+}
+
+.about-me-body{
+
+}
+
+.about-me-urls{
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	border-radius: 4px;
+	margin-left: -20px;
+	padding: 10px;
+	font-size: 0.9em;
+	display: inline-block;
+}
+
+.about{
+	padding: 50px 20px;
+}
+/*ABOUT ME*/
+
+.link {
+	text-decoration: none;
+	margin-left: 8px;
+	margin-right: 8px;
+}
+
+
+
+/*ICON*/
+
+/*.icon_twitter:before {
+	content: ""; }*/
+
+
+
+	/*ICON*/
+
+

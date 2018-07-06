@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}
+Александр Андрухов
+{% endblock %} 
+
+{% block content_title %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul>
+	{% for message in messages %}
+	<li>{{ message }}</li>
+	{% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+
+<div class="about">
+	<p class="about-me-tittle">
+		Привет! Меня зовут Александр.
+	</p>
+	<div class="about-me-body">
+		Живу в РнД. Изучаю языки.
+		Блог сделан исключительно для заметок и идей.
+	</div>
+</div>
+
+<div class="about-me-urls">
+	<a class="link" href="https://twitter.com/AndrukhovAlex" target="_blank">
+		<i class="icon icon_twitter"></i><u>Twitter</u>
+	</a>
+
+	<a class="link" href="https://vk.com/ld12345789" target="_blank">
+		<i class="icon icon_vk"></i><u>Вконтакте</u>
+	</a>
+
+	<a class="link" href="https://t.me/saboteur_man" target="_blank">
+		<i class="icon icon_paper-plane"></i><u>Телеграм</u>
+	</a>
+
+	<a class="link" href="https://github.com/AlertRED" target="_blank">
+		<i class="icon icon_github"></i><u>GitHub</u>
+	</a>
+</div>
+{% endblock %}
+
+{% block content %}
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}
+Вход
+{% endblock %}
+
+{% block content %}
+<div class="block">
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.username(size=32, class='field_login') }}
+            {% for error in form.username.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+           {{ form.password(size=32,class='field_login') }}
+           {% for error in form.password.errors %}
+           <span style="color: red;">[{{ error }}]</span>
+           {% endfor %}
+       </p>
+       <p>{{ form.remember_me() }} {{ form.remember_me.label(class='remember_me') }}</p>
+       <p>{{ form.submit(class='submit_button') }}</p>
+   </form>
+</div>
+{% endblock %}
