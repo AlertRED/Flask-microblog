@@ -1,43 +1,99 @@
 
+@font-face {
+	font-family: SuiGeneris-UltraLigh; /* Гарнитура шрифта */
+	src: url(/static/font/SuiGeneris-UltraLigh.ttf) format("truetype"); /* Путь к файлу со шрифтом */
+}
 
 html{
 	font-family: system-ui, "Trebuchet MS", "Helvetica Neue", "Arial", sans-serif;
 	font-size: 22px;
 }
 
+body{
+	margin:0px;
+}
+
 a{
+	color: #06c;
+	text-decoration: none;
+	background-size: 10px 1px;
+	background-repeat: repeat-x;
+	background-position: 0 calc(100% - 1px);
+	text-shadow: 1px 0 #FFF, -1px 0 #FFF, 0 1px #FFF, 0 -1px #FFF, -1px -1px #FFF, 1px 1px #FFF, -1px 1px #FFF, 1px -1px #FFF;
+	background-image: -webkit-gradient(linear, left top, right top, color-stop(100%, #0066cc), color-stop(0%, rgba(255, 255, 255, 0)));
+	background-image: linear-gradient(to right, #0066cc 100%, rgba(255, 255, 255, 0) 0%);
+}
+
+.link {
 	color: #06c;
 }
 
-a:hover{
+.link:hover{
 	color: #61B;
 }
 
-/*ФОРМА ЛОГИНА*/
-.field_login , .field_password{
+#name-title{
+	font-family: "SuiGeneris-UltraLigh", "Charter", "Georgia", "Times", serif;
+	background-color: #fff;
+	margin:0px;
+	top: 5%;
+	left: 50%;
+	width: 100%;
+	height: 10%;
+	transform: translate(-50%, -50%);
+	position: fixed;
+	z-index: 100;
+}
+
+/*ФОРМА*/
+input[type="text"], input[type="password"], textarea {
+	font-family: inherit;
+	border: 1px solid #06c;
 	border-radius: 6px;
 	height: 40px;
 	padding-left: 20px;
 	font-size: 0.7em;
 }
 
-.remember_me{
-	font-size: 0.7em;
-}
-
-.submit_button{
-	background-color: #ea4c88;
+input[type="submit"] {
+	background-color: #06c;
 	color: #eee; 
 	font-weight: bold; 
 	height: 40px;
-	border-radius: 3px;
+	border-radius: 3px;	
 	font-size: 0.7em;
 	border: none;
 	cursor: pointer;
 	width: 100%;
 }
-/*ФОРМА ЛОГИНА*/
 
+
+
+/*ФОРМА*/
+/*ФОРМА ЛОГИНА*/
+.remember_me{
+	font-size: 0.7em;
+}
+
+.submit_button:hover {
+	transition: .25s;
+	background-color: #c04;
+	border:1px solid;
+}
+
+
+/*ФОРМА ЛОГИНА*/
+/*ФОРМА НОВОГО ПОСТА*/
+
+.field_title, .field{
+	border: 1px solid #06c;
+	border-radius: 6px;
+	height: 40px;
+	padding-left: 20px;
+	font-size: 0.7em;
+}
+
+/*ФОРМА НОВОГО ПОСТА*/
 
 .block {
 	position: absolute;
@@ -51,12 +107,20 @@ a:hover{
 	padding: 0 60px;
 	max-width: 720px;
 	margin: 0 auto;
-	margin-top: 0px;
 	margin-right: auto;
 	margin-bottom: 0px;
 	margin-left: auto;
+	margin-top: 0%;
 }
+
+
 /*ABOUT ME*/
+
+@keyframes about_me_urls{
+	0%   {margin-left: -120px; opacity: 0;}
+	100% {margin-left: -20px; opacity: 1;}
+}
+
 .about-me-tittle{
 	margin-bottom: 10px;
 	font-size: 1.1em;
@@ -71,14 +135,27 @@ a:hover{
 	border: 1px solid rgba(0, 0, 0, 0.1);
 	border-radius: 4px;
 	margin-left: -20px;
+	opacity: 1;
 	padding: 10px;
 	font-size: 0.9em;
 	display: inline-block;
+
+	-webkit-animation-name: about_me_urls; 
+	-webkit-animation-duration: 2s; 
+	animation-name: about_me_urls;
+	animation-duration: 2s;
+}
+
+.about-me-urls a{
+	background-image:none;
+	background-image:none;
 }
 
 .about{
-	padding: 50px 20px;
+	padding:20px 20px;
 }
+
+
 /*ABOUT ME*/
 
 .link {
@@ -87,15 +164,135 @@ a:hover{
 	margin-right: 8px;
 }
 
+/*МЕНЮ*/
+
+.menu {
+	font-size: 1.8em;
+	cursor: pointer;
+	list-style:none;
+	position: fixed;
+	top:1%;
+	left:5%;
+	z-index: 101;
+}
+
+.menu:hover {
+	color: #888;
+}
+
+.menu:hover ul{
+	left:0px;
+}
+
+.menu ul{
+	list-style-type: none;
+	position:absolute;
+	left:-9999px;
+	margin: 0px;
+	padding: 0px;
+}
+
+.menu li{
+	font-size: 0.4em;
+	padding:4px;
+	background-color: rgba(0,0,0,0);
+	margin-top: 5px;
+}
+
+.menu li a{
+	color: #000;
+	white-space:nowrap;
+	text-decoration:none;
+	background-image: none;
+	background-image: none;
+}
+.menu li:hover a{
+	background-image: -webkit-gradient(linear, left top, right top, color-stop(100%, #000), color-stop(0%, rgba(255, 255, 255, 0)));
+	background-image: linear-gradient(to right, #000 100%, rgba(255, 255, 255, 0) 0%);
+}
+
+.menu li:hover {
+}
+/*МЕНЮ*/
 
 
-/*ICON*/
+/*ВСПЛЫВАЮЩЕЕ СООБЩЕНИЕ*/
+@keyframes flash_message {
+	0%   {top: -5%;}
+	10% {top: 3%;}
+	90% {top: 3%;opacity: 1;}
+	100% {top: -5%; opacity: 0;}
+}
 
-/*.icon_twitter:before {
-	content: ""; }*/
+.header-message {
+	position: absolute;
+	width: inherit;
+	font-size: 0.75em;
+	padding: 10px;
+	opacity: 1;
+	top: -5%;
+	left: 50%;
+	transform: translate(-49%, -50%);
+
+	-webkit-animation-name: flash_message; /* Safari 4.0 - 8.0 */
+	-webkit-animation-duration: 5s; /* Safari 4.0 - 8.0 */
+	animation-name: flash_message;
+	animation-duration: 5s;
+}
+
+.flash-alert{
+	background-color: #fee;
+	color: #a94442;
+}
+
+.flash-success{
+	background-color: #d9edf7;
+	color: #31708f;
+}
 
 
+/*ПОСТ*/
 
-	/*ICON*/
+.post {
+	margin-top:60px;
+}
+
+.post time{
+	font-size: 0.7em;
+	font-style: italic;
+	color: #AAA;
+}
+
+
+.posts-list p{
+	margin-top: 0px;
+	margin-bottom:5px;
+}
+
+
+.post p{
+	margin-top:10px;
+	margin-bottom:20px;
+}
+
+.title-post{	
+	font-weight: bold;
+	font-size: 24px;
+	font-family: "Helvetica Neue", "Arial", sans-serif;	
+}
+
+.title-post a{
+	color: #222;
+	background-image: -webkit-gradient(linear, left top, right top, color-stop(100%, #222), color-stop(0%, rgba(255, 255, 255, 0)));
+	background-image: linear-gradient(to right, #222 100%, rgba(255, 255, 255, 0) 0%);
+}
+
+.body-post{
+	font-size: 0.9em;
+	line-height: 1.5;
+	font-family: "Charter", "Georgia", "Times", serif;
+}
+
+/*ПОСТ*/
 
 

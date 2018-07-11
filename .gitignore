@@ -1,5 +1,4 @@
 .git
 __pycache__
 venv
-project.sublime-project
-project.sublime-workspace
+migrations

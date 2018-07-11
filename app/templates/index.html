@@ -5,16 +5,10 @@
 {% endblock %} 
 
 {% block content_title %}
-{% with messages = get_flashed_messages() %}
-{% if messages %}
-<ul>
-	{% for message in messages %}
-	<li>{{ message }}</li>
-	{% endfor %}
-</ul>
-{% endif %}
-{% endwith %}
 
+
+<!-- <h1 id="name-title"><center>MY AMBIENT</center></h1>
+ -->
 <div class="about">
 	<p class="about-me-tittle">
 		Привет! Меня зовут Александр.
@@ -42,7 +36,32 @@
 		<i class="icon icon_github"></i><u>GitHub</u>
 	</a>
 </div>
+<br/>
 {% endblock %}
 
 {% block content %}
+
+<div class="posts-list">
+	{% for post in posts %}
+	<div class="post">
+		<time>
+			<script type="text/javascript">
+				document.write(moment("{{ post.timestamp }}", "YYYY-MM-DD hh:mm:ss").format('LL'));
+			</script>
+		</time>
+
+		<p class="title-post">
+			<a href="{{ post.slug }}">
+				{{ post.title }}
+			</a>
+		</p>
+
+		<div class="body-post">
+			{{ post.body }}
+		</div>
+	</div>
+	{% endfor %}
+
+</div>
+
 {% endblock %}
