@@ -8,7 +8,7 @@
 
 
 <!-- <h1 id="name-title"><center>MY AMBIENT</center></h1>
- -->
+-->
 <div class="about">
 	<p class="about-me-tittle">
 		Привет! Меня зовут Александр.
@@ -41,27 +41,10 @@
 
 {% block content %}
 
-<div class="posts-list">
-	{% for post in posts %}
-	<div class="post">
-		<time>
-			<script type="text/javascript">
-				document.write(moment("{{ post.timestamp }}", "YYYY-MM-DD hh:mm:ss").format('LL'));
-			</script>
-		</time>
+{% include 'includes/show_posts.html' %}
 
-		<p class="title-post">
-			<a href="{{ post.slug }}">
-				{{ post.title }}
-			</a>
-		</p>
-
-		<div class="body-post">
-			{{ post.body }}
-		</div>
-	</div>
-	{% endfor %}
-
+<div class="show-more">
+	<a href="{{ url_for('posts.all_posts') }}">Показать еще<i class="icon icon_chevron-right"></i></a>
 </div>
 
 {% endblock %}

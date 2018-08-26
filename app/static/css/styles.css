@@ -9,6 +9,13 @@ html{
 	font-size: 22px;
 }
 
+::selection {
+	background: #b7b7ff; /* Safari */
+}
+::-moz-selection {
+	background: #b7b7ff; /* Firefox */
+}
+
 body{
 	margin:0px;
 }
@@ -137,7 +144,7 @@ input[type="submit"] {
 	margin-left: -20px;
 	opacity: 1;
 	padding: 10px;
-	font-size: 0.9em;
+	font-size: 0.8em;
 	display: inline-block;
 
 	-webkit-animation-name: about_me_urls; 
@@ -254,7 +261,7 @@ input[type="submit"] {
 /*ПОСТ*/
 
 .post {
-	margin-top:60px;
+	margin-bottom: 60px;
 }
 
 .post time{
@@ -263,6 +270,9 @@ input[type="submit"] {
 	color: #AAA;
 }
 
+.posts-list{
+	padding-top: 60px;
+}
 
 .posts-list p{
 	margin-top: 0px;
@@ -275,10 +285,29 @@ input[type="submit"] {
 	margin-bottom:20px;
 }
 
-.title-post{	
+.title-post{
 	font-weight: bold;
 	font-size: 24px;
 	font-family: "Helvetica Neue", "Arial", sans-serif;	
+}
+
+
+.settings-post{
+	font-size: 0.5em;
+	font-weight: normal;
+	border: 1px solid rgba(0, 0, 0, 0);
+	border-radius: 4px;
+	padding: 1px;
+	cursor: pointer;
+	text-decoration: none;
+	opacity: 0.6;
+	background-color: #0000;
+}
+
+.settings-post:hover{
+	transition: .3s;
+	opacity: 1;
+	border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 .title-post a{
@@ -291,6 +320,25 @@ input[type="submit"] {
 	font-size: 0.9em;
 	line-height: 1.5;
 	font-family: "Charter", "Georgia", "Times", serif;
+	word-wrap: break-word;
+}
+
+
+
+pre {
+     white-space: pre-wrap;       /* css-3 */
+     white-space: -moz-pre-wrap;  /* Mozilla, с 1999 */
+     white-space: -pre-wrap;      /* Opera 4-6 */
+     white-space: -o-pre-wrap;    /* Opera 7 */
+     word-wrap: break-word;       /* Internet Explorer 5.5+ поддерживается в IE, Safari, и Firefox 3.1.*/
+}
+
+.show-more{
+		margin-bottom: 60px;
+}
+.show-more a{
+		font-size: 0.8em;
+		font-family: "Charter", "Georgia", "Times", serif;
 }
 
 /*ПОСТ*/

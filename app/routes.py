@@ -1,16 +1,22 @@
 from app import app, db
 from flask import render_template, flash, redirect, url_for, request
-from app.forms import LoginForm, PostForm
+from app.forms import LoginForm
 from app.models import User, Post
 
 from flask_login import current_user, login_user, logout_user
 from app.models import User
 import pytils
 
+
+def first_paragraph(body):
+    return body[:body.find('\n')] or body
+
 @app.route('/')
 @app.route('/index')
 def index():
-    posts = Post.query.all()
+    posts = Post.query.order_by(Post.timestamp.desc()).limit(5).all()
+    for post in posts:
+        post.body = first_paragraph(post.body)
     return render_template('index.html', posts=posts)
 
 @app.route('/mypanel', methods=['GET', 'POST'])
@@ -29,33 +35,13 @@ def login():
         return redirect(url_for('index'))
     return render_template('login.html', form=form)
 
-@app.route('/create_post', methods=['POST', 'GET'])
-def create_post():
-    if current_user.is_authenticated and current_user.username =='ieaiaio':
-        if request.method == 'POST':
-            title = request.form['title']
-            body = request.form['body']
-            print(title, body)
-            try:
-                post = Post(title=title, body=body)#, tags=[tag]
-                db.session.add(post)
-                db.session.commit()
-            except Exception as e:
-                flash(str(e), 'alert')
-            else:
-                flash('Пост успешно выложен','success')
-            return redirect(url_for('index'))
-        form = PostForm()
-        return render_template('create_post.html', form=form)
-    return redirect(url_for('index'))
-
 @app.route('/logout')
 def logout():
     if current_user.is_authenticated and logout_user():
         flash('Выход выполнен успешно', 'success')
     return redirect(url_for('index'))
 
-@app.route('/<slug>')
-def post_detail(slug):
-    post = Post.query.filter(Post.slug == slug).first_or_404()
-    return render_template('/post.html', post=post)
+# @app.route('/<slug>')
+# def post_detail(slug):
+#     post = Post.query.filter(Post.slug == slug).first_or_404()
+#     return render_template('/post.html', post=post)

@@ -1,12 +1,14 @@
 {% extends "base.html" %}
 
 {% block title %}
+Александр Андрухов
 {% endblock %} 
 
 {% block content_title %}
-<h2>{{post.title}}</h2>
 {% endblock %}
 
 {% block content %}
-{{post.body}}
+
+{% include 'includes/show_posts.html' %}
+
 {% endblock %}
