@@ -6,7 +6,7 @@
 
 html{
 	font-family: system-ui, "Trebuchet MS", "Helvetica Neue", "Arial", sans-serif;
-	font-size: 22px;
+	font-size: 18px;
 }
 
 ::selection {
@@ -14,6 +14,10 @@ html{
 }
 ::-moz-selection {
 	background: #b7b7ff; /* Firefox */
+}
+
+input {
+	outline:none;
 }
 
 body{
@@ -26,7 +30,6 @@ a{
 	background-size: 10px 1px;
 	background-repeat: repeat-x;
 	background-position: 0 calc(100% - 1px);
-	text-shadow: 1px 0 #FFF, -1px 0 #FFF, 0 1px #FFF, 0 -1px #FFF, -1px -1px #FFF, 1px 1px #FFF, -1px 1px #FFF, 1px -1px #FFF;
 	background-image: -webkit-gradient(linear, left top, right top, color-stop(100%, #0066cc), color-stop(0%, rgba(255, 255, 255, 0)));
 	background-image: linear-gradient(to right, #0066cc 100%, rgba(255, 255, 255, 0) 0%);
 }
@@ -36,7 +39,7 @@ a{
 }
 
 .link:hover{
-	color: #61B;
+	color: #C04;
 }
 
 #name-title{
@@ -110,14 +113,9 @@ input[type="submit"] {
 }
 
 .container {
-	font-size: 100%;
-	padding: 0 60px;
 	max-width: 720px;
 	margin: 0 auto;
-	margin-right: auto;
-	margin-bottom: 0px;
-	margin-left: auto;
-	margin-top: 0%;
+	padding-top:50px;
 }
 
 
@@ -130,12 +128,12 @@ input[type="submit"] {
 
 .about-me-tittle{
 	margin-bottom: 10px;
-	font-size: 1.1em;
+	font-size: 1.4em;
 	font-weight: bold;
 }
 
 .about-me-body{
-
+	font-size: 1.2em;
 }
 
 .about-me-urls{
@@ -144,9 +142,8 @@ input[type="submit"] {
 	margin-left: -20px;
 	opacity: 1;
 	padding: 10px;
-	font-size: 0.8em;
+	font-size: 1.1em;
 	display: inline-block;
-
 	-webkit-animation-name: about_me_urls; 
 	-webkit-animation-duration: 2s; 
 	animation-name: about_me_urls;
@@ -154,8 +151,20 @@ input[type="submit"] {
 }
 
 .about-me-urls a{
-	background-image:none;
-	background-image:none;
+	background-image: none;
+}
+
+.about-me-urls u{
+	text-decoration: none;
+	background-size: 10px 1px;
+	background-repeat: repeat-x;
+	background-position: 0 calc(100% - 1px);
+	background-image: linear-gradient(to right, #06c 100%, rgba(255, 255, 255, 0) 0%);
+}
+
+.about-me-urls u:hover {
+	background-image: linear-gradient(to right, #C04 100%, rgba(255, 255, 255, 0) 0%);
+
 }
 
 .about{
@@ -265,7 +274,7 @@ input[type="submit"] {
 }
 
 .post time{
-	font-size: 0.7em;
+	font-size: 0.9em;
 	font-style: italic;
 	color: #AAA;
 }
@@ -287,10 +296,15 @@ input[type="submit"] {
 
 .title-post{
 	font-weight: bold;
-	font-size: 24px;
+	font-size: 1.5em;
 	font-family: "Helvetica Neue", "Arial", sans-serif;	
 }
 
+.title-post a:hover {
+	color: #C04;
+	background-image: -webkit-gradient(linear, left top, right top, color-stop(100%, #C04), color-stop(0%, rgba(255, 255, 255, 0)));
+	background-image: linear-gradient(to right, #C04 100%, rgba(255, 255, 255, 0) 0%);
+}
 
 .settings-post{
 	font-size: 0.5em;
@@ -312,12 +326,14 @@ input[type="submit"] {
 
 .title-post a{
 	color: #222;
+	background-size: 10px 2px;
+	background-position: 0 92%;
 	background-image: -webkit-gradient(linear, left top, right top, color-stop(100%, #222), color-stop(0%, rgba(255, 255, 255, 0)));
 	background-image: linear-gradient(to right, #222 100%, rgba(255, 255, 255, 0) 0%);
 }
 
 .body-post{
-	font-size: 0.9em;
+	font-size: 1.1em;
 	line-height: 1.5;
 	font-family: "Charter", "Georgia", "Times", serif;
 	word-wrap: break-word;
@@ -326,21 +342,89 @@ input[type="submit"] {
 
 
 pre {
-     white-space: pre-wrap;       /* css-3 */
-     white-space: -moz-pre-wrap;  /* Mozilla, с 1999 */
-     white-space: -pre-wrap;      /* Opera 4-6 */
-     white-space: -o-pre-wrap;    /* Opera 7 */
-     word-wrap: break-word;       /* Internet Explorer 5.5+ поддерживается в IE, Safari, и Firefox 3.1.*/
+	white-space: pre-wrap;       /* css-3 */
+	white-space: -moz-pre-wrap;  /* Mozilla, с 1999 */
+	white-space: -pre-wrap;      /* Opera 4-6 */
+	white-space: -o-pre-wrap;    /* Opera 7 */
+	word-wrap: break-word;       /* Internet Explorer 5.5+ поддерживается в IE, Safari, и Firefox 3.1.*/
 }
 
 .show-more{
-		margin-bottom: 60px;
+	margin-bottom: 60px;
 }
 .show-more a{
-		font-size: 0.8em;
-		font-family: "Charter", "Georgia", "Times", serif;
+	font-size: 	1em;
+	font-family: "Charter", "Georgia", "Times", serif;
 }
 
 /*ПОСТ*/
+
+/*TOOL BAR*/
+.tool-bar {
+	position: fixed;
+	font-family: "Charter", "Georgia", "Times", serif;
+	font-size: 0.8em;
+	width: 100%;
+	background-color: #0000;
+}
+
+.tool-bar ul{
+	list-style-type: none;
+	max-width: 720px;
+	margin: 0 auto;
+	padding: 0;
+	overflow: hidden;
+}
+
+.tool-bar li{
+	float: left;
+}
+
+.tool-bar li a{
+	text-shadow: none;
+	display: block;
+	color: #000;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+	background-image: none;	
+}
+
+.tool-bar li a:hover{
+	color:#06c;
+	text-decoration:underline;
+}
+
+.header__search{
+	float: right;
+	position: relative;
+}
+
+.header__search::after {
+	pointer-events: none;
+	font-family: "icomoon";
+	position: absolute;
+	content: "\e6d9";
+	opacity: 0.3;
+	font-size: 20px;
+	padding: 3px 3px;
+	left: 5px;
+	top: 14px;
+}
+
+#find-field{
+	border: 1px solid #DDD;
+	border-radius: 15px;
+	height: 25px;
+	width: 200px;
+	padding: 0 8px 0 30px;
+	font: 400 13.3333px Arial;
+}
+
+.gradient {
+	background-image: linear-gradient(to bottom, rgba(255,255,255,1), rgba(255,255,255,1), rgba(255,255,255,0));
+}
+
+/*TOOL BAR*/
 
 
