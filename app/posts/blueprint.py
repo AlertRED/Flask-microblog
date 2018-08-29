@@ -27,7 +27,7 @@ def create_post():
                 flash('Пост успешно выложен','success')
             return redirect(url_for('index'))
         form = PostForm()
-        return render_template('create_post.html', form=form)
+        return render_template('edit_post.html', form=form, title='Создание поста', button='Создать')
     return redirect(url_for('index'))
 
 @posts.route('/<slug>')
@@ -44,7 +44,7 @@ def edit_post(slug):
         db.session.commit()
         return redirect(url_for("posts.post_detail",slug = post.slug))
     form = PostForm(obj = post)
-    return render_template('edit_post.html', post = post, form = form)
+    return render_template('edit_post.html', post = post, form = form, title='Изменение поста', button='Сохранить')
 
 @posts.route('/')
 def all_posts():
