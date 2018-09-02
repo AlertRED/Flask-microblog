@@ -10,10 +10,8 @@
 
 {% block content %}
 
-<pre>
 <div class="body-post">
-{{post.body}}
+{{post.body | safe}}
 </div>
-</pre>
 
 {% endblock %}

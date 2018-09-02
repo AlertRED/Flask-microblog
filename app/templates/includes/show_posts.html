@@ -14,13 +14,13 @@
 
 			{% if current_user.is_authenticated and current_user.username == 'ieaiaio' %}
 			<button onClick='location.href="{{ url_for("posts.edit_post", slug = post.slug) }}"' class="settings-post"><i class="icon icon_edit"></i>Изменить</button>
-			<button class="settings-post"><i class="icon icon_uninstall"></i>Удалить</button>
+			<button onClick='location.href="{{ url_for("posts.delete_post", slug = post.slug) }}"' class="settings-post"><i class="icon icon_uninstall"></i>Удалить</button>
 			{% endif %}
 
 		</p>
 
 		<div class="body-post">
-			{{ post.body }}
+			{{ post.body | safe }}
 		</div>
 	</div>
 	{% endfor %}

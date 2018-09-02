@@ -7,7 +7,6 @@ from app.forms import PostForm
 posts = Blueprint('posts', __name__, template_folder='templates')
 
 
-
 def first_paragraph(body):
     return body[:body.find('\n')] or body
 
@@ -46,9 +45,18 @@ def edit_post(slug):
     form = PostForm(obj = post)
     return render_template('edit_post.html', post = post, form = form, title='Изменение поста', button='Сохранить')
 
+@posts.route('/<slug>/delete/', methods=['POST', 'GET'])
+def delete_post(slug):
+    if request.method == 'POST':
+        return redirect(url_for("index"))       
+    post = Post.query.filter(Post.slug == slug).first()
+    post.is_active = False
+    db.session.commit()
+    return redirect(url_for("index"))
+
 @posts.route('/')
 def all_posts():
-    posts = Post.query.order_by(Post.timestamp.desc()).all()
+    posts = Post.query.filter(Post.is_active==True).order_by(Post.timestamp.desc()).all()
     for post in posts:
     	post.body = first_paragraph(post.body)
 

@@ -58,6 +58,7 @@ class Post(db.Model):
     body = db.Column(db.String(65536))
     slug = db.Column(db.String(255), unique=True)
 
+    is_active = db.Column(db.Boolean, default=True)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     tags = db.relationship('Tag', secondary=post_tags, backref=db.backref('posts', lazy='dynamic'))
 

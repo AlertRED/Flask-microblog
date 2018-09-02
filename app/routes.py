@@ -14,7 +14,7 @@ def first_paragraph(body):
 @app.route('/')
 @app.route('/index')
 def index():
-    posts = Post.query.order_by(Post.timestamp.desc()).limit(5).all()
+    posts = Post.query.filter(Post.is_active).order_by(Post.timestamp.desc()).limit(5).all()
     for post in posts:
         post.body = first_paragraph(post.body)
     return render_template('index.html', posts=posts)

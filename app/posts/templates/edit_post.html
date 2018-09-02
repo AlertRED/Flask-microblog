@@ -1,20 +1,28 @@
 {% extends "base.html" %}
 
+
 {% block title %}
 {{ title }}
 {% endblock %}
 
+
 {% block content %}
+
+
 <div class="post-form">
-  <form action="" method="post" novalidate>
-    {{ form.hidden_tag() }} 
-    <p>
-      {{ form.title(size=64) }} {{ form.date() }}
-    </p>
-    <p>
-     {{ form.body() }}
-   </p>
-   <p>{{ form.submit(value=button,class='submit_button') }}</p>
- </form>
+	<form action="" method="post" novalidate>
+		{{ form.hidden_tag() }} 
+		<p>
+			{{ form.title(size=64) }} {{ form.date() }}
+		</p>
+		<p>
+			{{ form.body }}
+		</p>
+		<p>{{ form.submit(value=button,class='submit_button') }}</p>
+	</form>
+	{{ ckeditor.load() }}
+	{{ ckeditor.config(name='body') }}
 </div>
+
 {% endblock %}
+
