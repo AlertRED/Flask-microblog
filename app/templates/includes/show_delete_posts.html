@@ -14,7 +14,8 @@
 
 			{% if current_user.is_authenticated and current_user.username == 'ieaiaio' %}
 			<button onClick='location.href="{{ url_for("posts.edit_post", slug = post.slug) }}"' class="settings-post"><i class="icon icon_edit"></i>Изменить</button>
-			<button onClick='location.href="{{ url_for("posts.to_basket", slug = post.slug) }}"' class="settings-post"><i class="icon icon_uninstall"></i>Удалить</button>
+			<button onClick='location.href="{{ url_for("posts.restore", slug = post.slug) }}"' class="settings-post"><i class="icon icon_reply"></i>Восстановить</button>
+			<button onClick='location.href="{{ url_for("posts.delete", slug = post.slug) }}"' class="settings-post"><i class="icon icon_uninstall"></i>Удалить навсегда</button>
 			{% endif %}
 
 		</p>

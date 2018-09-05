@@ -1,5 +1,6 @@
 <html>
 <head>
+	<link rel="shortcut icon" href="/static/images/icon.png" type="png">
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/styles_ico.css') }}">
 	<link rel="preload" href="{{ url_for('static', filename='font/charter-regular.woff2') }}" as="font" type="font/woff2">
@@ -25,6 +26,7 @@
 		<ul>
 			<li><a href="#">Панель администратора</a></li>
 			<li><a href="{{ url_for('posts.create_post') }}">Создать пост</a></li>
+			<li><a href="{{ url_for('posts.basket') }}">Корзина / Черновик</a></li>
 			<li><a href="{{ url_for('logout') }}">Выход</a></li>
 		</ul>
 	</div>

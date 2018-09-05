@@ -45,13 +45,34 @@ def edit_post(slug):
     form = PostForm(obj = post)
     return render_template('edit_post.html', post = post, form = form, title='Изменение поста', button='Сохранить')
 
-@posts.route('/<slug>/delete/', methods=['POST', 'GET'])
-def delete_post(slug):
+@posts.route('/<slug>/restore/', methods=['POST', 'GET'])
+def restore(slug):
+    if request.method == 'POST':
+        return redirect(url_for("index"))       
+    post = Post.query.filter(Post.slug == slug).first()
+    post.is_active = True
+    db.session.commit()
+    flash('Пост восстановлен', 'success')
+    return redirect(url_for("index"))
+
+@posts.route('/<slug>/to_basket/', methods=['POST', 'GET'])
+def to_basket(slug):
     if request.method == 'POST':
         return redirect(url_for("index"))       
     post = Post.query.filter(Post.slug == slug).first()
     post.is_active = False
     db.session.commit()
+    flash('Пост отправлен в корзину', 'success')
+    return redirect(url_for("index"))
+
+@posts.route('/<slug>/delete/', methods=['POST', 'GET'])
+def delete(slug):
+    if request.method == 'POST':
+        return redirect(url_for("index"))       
+    post = Post.query.filter(Post.slug == slug).first()
+    db.session.delete(post)
+    db.session.commit()
+    flash('Пост успешно удален', 'success')
     return redirect(url_for("index"))
 
 @posts.route('/')
@@ -59,5 +80,11 @@ def all_posts():
     posts = Post.query.filter(Post.is_active==True).order_by(Post.timestamp.desc()).all()
     for post in posts:
     	post.body = first_paragraph(post.body)
-
     return render_template('all_posts.html', posts=posts)
+
+@posts.route('/basket')
+def basket():
+    posts = Post.query.filter(Post.is_active==False).order_by(Post.timestamp.desc()).all()
+    for post in posts:
+        post.body = first_paragraph(post.body)
+    return render_template('draft.html', posts=posts)

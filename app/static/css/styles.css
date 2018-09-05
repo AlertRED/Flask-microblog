@@ -258,7 +258,7 @@ input[type="submit"] {
 .header-message {
 	position: absolute;
 	width: inherit;
-	font-size: 0.75em;
+	font-size: 0.8em;
 	padding: 10px;
 	opacity: 1;
 	top: -5%;

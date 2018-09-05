@@ -41,7 +41,3 @@ def logout():
         flash('Выход выполнен успешно', 'success')
     return redirect(url_for('index'))
 
-# @app.route('/<slug>')
-# def post_detail(slug):
-#     post = Post.query.filter(Post.slug == slug).first_or_404()
-#     return render_template('/post.html', post=post)
