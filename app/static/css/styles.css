@@ -177,10 +177,9 @@ input[type="submit"] {
 	background-image: linear-gradient(to right, #06c 100%, rgba(255, 255, 255, 0) 0%);
 }
 
-.about-me-urls u:hover {
-	background-image: linear-gradient(to right, #C04 100%, rgba(255, 255, 255, 0) 0%);
-
-}
+.about-me-urls a:hover u{
+		background-image: linear-gradient(to right, #C04 100%, rgba(255, 255, 255, 0) 0%);
+} 
 
 .about{
 	padding:20px 20px;

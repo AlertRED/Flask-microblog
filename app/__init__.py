@@ -14,6 +14,6 @@ migrate = Migrate(app, db)
 ckeditor = CKEditor(app)
 
 
-from app import routes, models
-from app.posts.blueprint import posts
-app.register_blueprint(posts, url_prefix='/blog')
+
+
+
