@@ -3,7 +3,6 @@ from app import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from app import login
-import pytils
 import re
 
 @login.user_loader
@@ -19,8 +18,7 @@ post_tags = db.Table('post_tags',
                      db.Column('post_id', db.Integer, db.ForeignKey('post.id')),
                      db.Column('tag_id', db.Integer, db.ForeignKey('tag.id'))
                      )
-
-
+        
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
@@ -33,7 +31,8 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
-        return '<User {}>'.format(self.username)
+        return '<User: username {}, id: {}>'.format(self.username, self.id)
+        
 
 class Tag(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -49,7 +48,7 @@ class Tag(db.Model):
             self.slug = slugify(self.name)
 
     def __repr__(self):
-        return '{}'.format(self.name)
+        return 'Rag: name {}'.format(self.name)
 
 
 class Post(db.Model):
@@ -71,4 +70,4 @@ class Post(db.Model):
             self.slug = slugify(self.title)
 
     def __repr__(self):
-        return '<Post name {}>'.format(self.title)
+        return '<Post: name {}, active {}>'.format(self.title,self.is_active)

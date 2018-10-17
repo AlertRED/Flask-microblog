@@ -11,7 +11,8 @@
 {% block content %}
 
 <div class="body-post">
-{{post.body | safe}}
+	{{ ckeditor.load_code_theme() }}
+	{{post.body | safe}}
 </div>
 
 {% endblock %}

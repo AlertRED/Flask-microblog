@@ -4,7 +4,6 @@ from app.forms import LoginForm
 from app.models import User, Post
 
 from flask_login import current_user, login_user, logout_user
-from app.models import User
 import pytils
 
 

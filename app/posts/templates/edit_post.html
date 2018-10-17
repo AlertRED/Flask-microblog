@@ -18,10 +18,11 @@
 		<p>
 			{{ form.body }}
 		</p>
-		<p>{{ form.submit(value=button,class='submit_button') }}</p>
+		<p>{{ form.submit(value=button, class='submit_button') }}</p>
 	</form>
 	{{ ckeditor.load() }}
 	{{ ckeditor.config(name='body') }}
+
 </div>
 
 {% endblock %}

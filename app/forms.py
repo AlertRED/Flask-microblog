@@ -12,8 +12,6 @@ class LoginForm(Form):
 
 class PostForm(Form):
     title = StringField(validators=[InputRequired()], render_kw={"placeholder": "Заголовок"})
-    # body = TextAreaField(validators=[InputRequired()], render_kw={"placeholder": "Текст", "spellcheck": "true"})
-    body = CKEditorField('Body')
+    body = CKEditorField('Body', validators=[DataRequired()])
     date = DateField(format='%Y-%m-%d')
-    # tags = SelectField('Теги', choices=[(tag.id, tag.name) for tag in Tag.query.all()])
     submit = SubmitField('Создать')

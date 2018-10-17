@@ -1,4 +1,4 @@
-from app import app, models
+from app import app
 
 ### ADMIN ###
 
@@ -19,8 +19,5 @@ admin = Admin(app)
 admin.add_view(AdminView(User, db.session))
 admin.add_view(AdminView(Post, db.session))
 
-### Blueprints ###
 
-from app import routes, models
-from app.posts.blueprint import posts
-app.register_blueprint(posts, url_prefix='/blog')
+

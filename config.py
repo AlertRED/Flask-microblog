@@ -1,6 +1,11 @@
 
 class Config(object):
-    SECRET_KEY = 'qwerrt'
-    DEBUG = True
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://root@127.0.0.1/mybase'
+	SECRET_KEY = 'qwerrt'
+	SQLALCHEMY_TRACK_MODIFICATIONS = False
+	SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://root@127.0.0.1/mydb'
+	
+	CKEDITOR_SERVE_LOCAL = True
+	CKEDITOR_HEIGHT = 100
+	CKEDITOR_ENABLE_CODESNIPPET = True
+
+	# CKEDITOR_PKG_TYPE = 'basic'

@@ -56,9 +56,8 @@ a{
 }
 
 /*ФОРМА*/
-input[type="text"], input[type="password"], input[type="date"], textarea {
+input[type="text"], input[type="password"], input[type="date"] {
 	font-family: "Charter", "Georgia", "Times", serif;
-
 	border: 1px solid #06c;
 	border-radius: 6px;
 	height: 40px;
