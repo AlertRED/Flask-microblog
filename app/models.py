@@ -5,9 +5,11 @@ from flask_login import UserMixin
 from app import login
 import re
 
+
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
+
 
 def slugify(s):
     pattern = r'[^\w+]'
@@ -18,7 +20,8 @@ post_tags = db.Table('post_tags',
                      db.Column('post_id', db.Integer, db.ForeignKey('post.id')),
                      db.Column('tag_id', db.Integer, db.ForeignKey('tag.id'))
                      )
-        
+
+
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
@@ -32,23 +35,26 @@ class User(UserMixin, db.Model):
 
     def __repr__(self):
         return '<User: username {}, id: {}>'.format(self.username, self.id)
-        
+
 
 class Tag(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), unique=True)
     slug = db.Column(db.String(100), unique=True)
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    is_active = db.Column(db.Boolean, default=True)
+    color = db.Column(db.String(9))
 
-    def __init__(self, *args,**kwargs):
+    def __init__(self, *args, **kwargs):
         super(Tag, self).__init__(*args, **kwargs)
         self.generate_slug()
 
     def generate_slug(self):
-        if self.title:
+        if self.name:
             self.slug = slugify(self.name)
 
     def __repr__(self):
-        return 'Rag: name {}'.format(self.name)
+        return 'Tag: name {}'.format(self.name)
 
 
 class Post(db.Model):
@@ -70,4 +76,4 @@ class Post(db.Model):
             self.slug = slugify(self.title)
 
     def __repr__(self):
-        return '<Post: name {}, active {}>'.format(self.title,self.is_active)
+        return '<Post: name {}, active {}>'.format(self.title, self.is_active)

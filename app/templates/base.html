@@ -12,7 +12,7 @@
 	
 	<title>
 		{% block title %}
-	{% endblock %} | BLOG</title>
+	{% endblock %} | My Ambient</title>
 
 
 
@@ -24,9 +24,9 @@
 	<div class="menu">
 		<i class="icon_admin icon_menu"></i>
 		<ul>
-			<li><a href="/admin">Панель администратора</a></li>
-			<li><a href="{{ url_for('posts.create_post') }}">Создать пост</a></li>
-			<li><a href="{{ url_for('posts.basket') }}">Корзина / Черновик</a></li>
+<!--			<li><a href="/admin">Панель администратора</a></li>-->
+			<li><a href="{{ url_for('posts.create_post') }}">Создать заметку</a></li>
+			<li><a href="{{ url_for('posts.basket') }}">Корзина</a></li>
 			<li><a href="{{ url_for('logout') }}">Выход</a></li>
 		</ul>
 	</div>

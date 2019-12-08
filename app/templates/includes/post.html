@@ -1,0 +1,35 @@
+<div class="post">
+	<time>
+            <script type="text/javascript">
+				document.write(moment("{{ post.timestamp }}", "YYYY-MM-DD hh:mm:ss").format('LL'));
+
+            </script>
+        </time>
+    <p class="title-post">
+
+        <a href="/blog/{{ post.slug }}">{{ post.title }}</a>
+
+        {% if current_user.is_authenticated and current_user.username == 'ieaiaio' %}
+        <button onClick='location.href="{{ url_for("posts.edit_post", slug = post.slug) }}"' class="settings-post"><i
+                class="icon icon_edit"></i>Изменить
+        </button>
+        {% if post.is_active %}
+        <button onClick='location.href="{{ url_for("posts.to_basket", slug = post.slug) }}"' class="settings-post"><i
+                class="icon icon_uninstall"></i>Удалить
+        </button>
+        {% else %}
+        <button onClick='location.href="{{ url_for("posts.restore", slug = post.slug) }}"' class="settings-post"><i
+                class="icon icon_reply"></i>Восстановить
+        </button>
+        <button onClick='location.href="{{ url_for("posts.delete", slug = post.slug) }}"' class="settings-post"><i
+                class="icon icon_uninstall"></i>Удалить навсегда
+        </button>
+        {% endif %}
+        {% endif %}
+
+    </p>
+
+    <div class="body-post">
+        {{ post.body | safe }}
+    </div>
+</div>

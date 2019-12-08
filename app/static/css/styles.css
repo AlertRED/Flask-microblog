@@ -1,3 +1,21 @@
+.badge-primary {
+    color: #fff;
+    background-color: #007bff;
+}
+
+.badge {
+    display: inline-block;
+    padding: .25em .4em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
 
 @font-face {
 	font-family: SuiGeneris-UltraLigh; /* Гарнитура шрифта */
@@ -57,6 +75,15 @@ a{
 
 /*ФОРМА*/
 input[type="text"], input[type="password"], input[type="date"] {
+	font-family: "Charter", "Georgia", "Times", serif;
+	border: 1px solid #06c;
+	border-radius: 6px;
+	height: 40px;
+	padding-left: 20px;
+	font-size: 0.9em;
+}
+
+select {
 	font-family: "Charter", "Georgia", "Times", serif;
 	border: 1px solid #06c;
 	border-radius: 6px;
@@ -219,6 +246,7 @@ input[type="submit"] {
 	left:-9999px;
 	margin: 0px;
 	padding: 0px;
+	background: white;
 }
 
 .menu li{
@@ -282,14 +310,21 @@ input[type="submit"] {
 
 /*ПОСТ*/
 
+.post-detail{
+    margin-top: 70px;
+}
+
 .post {
 	margin-bottom: 60px;
 }
 
 .post time{
-	font-size: 0.9em;
+	font-size: 14px;
 	font-style: italic;
 	color: #AAA;
+	margin-left: -150px;
+    margin-top: 9px;
+    position: absolute;
 }
 
 .posts-list{
@@ -310,7 +345,8 @@ input[type="submit"] {
 .title-post{
 	font-weight: bold;
 	font-size: 1.5em;
-	font-family: "Helvetica Neue", "Arial", sans-serif;	
+	font-family: "Helvetica Neue", "Arial", sans-serif;
+	word-wrap: break-word;
 }
 
 .title-post a:hover {

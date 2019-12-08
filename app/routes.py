@@ -1,28 +1,23 @@
-from app import app, db
-from flask import render_template, flash, redirect, url_for, request
+from app import app, support
+from flask import render_template, flash, redirect, url_for
 from app.forms import LoginForm
 from app.models import User, Post
 
 from flask_login import current_user, login_user, logout_user
-import pytils
-
-
-def first_paragraph(body):
-    return body[:body.find('\n')] or body
 
 @app.route('/')
 @app.route('/index')
 def index():
     posts = Post.query.filter(Post.is_active).order_by(Post.timestamp.desc()).limit(5).all()
     for post in posts:
-        post.body = first_paragraph(post.body)
+        post.body = support.first_paragraph(post.body)
     return render_template('index.html', posts=posts)
+
 
 @app.route('/mypanel', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('index'))
-
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
@@ -33,6 +28,7 @@ def login():
         flash('Вход выполнен успешно', 'success')
         return redirect(url_for('index'))
     return render_template('login.html', form=form)
+
 
 @app.route('/logout')
 def logout():
