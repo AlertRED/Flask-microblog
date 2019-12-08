@@ -4,11 +4,7 @@
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/styles_ico.css') }}">
 	<link rel="preload" href="{{ url_for('static', filename='font/charter-regular.woff2') }}" as="font" type="font/woff2">
-
-	<script src="/static/js/moment-with-locales.js"></script>
-	<script type="text/javascript">
-		moment.locale('ru');
-	</script>
+	<script src="/static/js/support.js"></script>
 	
 	<title>
 		{% block title %}
@@ -22,9 +18,13 @@
 
 	{% if current_user.is_authenticated and current_user.username == 'ieaiaio' %}
 	<div class="menu">
-		<i class="icon_admin icon_menu"></i>
+		<div>
+			<span class="icon_admin icon_open-book"></span>
+			Меню
+			<span class="icon_admin icon_chevron-small-down"></span>
+			<span class="icon_admin icon_chevron-small-up"></span>
+		</div>
 		<ul>
-<!--			<li><a href="/admin">Панель администратора</a></li>-->
 			<li><a href="{{ url_for('posts.create_post') }}">Создать заметку</a></li>
 			<li><a href="{{ url_for('posts.basket') }}">Корзина</a></li>
 			<li><a href="{{ url_for('logout') }}">Выход</a></li>
