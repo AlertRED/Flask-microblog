@@ -245,6 +245,26 @@ input[type="submit"] {
 	display: block;
 }
 
+#chevron-down {
+    display: none;
+}
+
+#chevron-up {
+    display: inline;
+}
+
+#menu:hover .icon_chevron-small-down{
+   display: inline;
+}
+
+#menu:hover .icon_chevron-small-up{
+   display: none;
+}
+
+.menu:hover ul{
+	display: block;
+}
+
 .menu ul{
 	list-style-type: none;
 	position:absolute;
@@ -281,26 +301,26 @@ input[type="submit"] {
 
 /*ВСПЛЫВАЮЩЕЕ СООБЩЕНИЕ*/
 @keyframes flash_message {
-	0%   {top: -5%;}
-	10% {top: 3%;}
-	90% {top: 3%;opacity: 1;}
-	100% {top: -5%; opacity: 0;}
+	0%   {top: -20px;}
+	10% {top: 18px; opacity: 1;}
+	90% {top: 18px; opacity: 1;}
+	100% {top: -20px;}
 }
 
 .header-message {
 	position: absolute;
 	width: inherit;
-	font-size: 0.8em;
+	font-size: 14px;
 	padding: 10px;
-	opacity: 1;
-	top: -5%;
+	opacity: 0;
+	top: -20px;
 	left: 50%;
 	transform: translate(-49%, -50%);
 
 	-webkit-animation-name: flash_message; /* Safari 4.0 - 8.0 */
-	-webkit-animation-duration: 5s; /* Safari 4.0 - 8.0 */
+	-webkit-animation-duration: 6s; /* Safari 4.0 - 8.0 */
 	animation-name: flash_message;
-	animation-duration: 5s;
+	animation-duration: 6s;
 }
 
 .flash-alert{

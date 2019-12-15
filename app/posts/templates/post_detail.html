@@ -8,10 +8,10 @@
 <div class="post post-detail">
     <time>
         <script type="text/javascript">
-		document.write(moment("{{ post.timestamp }}", "YYYY-MM-DD hh:mm:ss").format('LL'));
+		    document.write(ru_date("{{ post.timestamp }}"));
         </script>
     </time>
-<p class="title-post">
+    <p class="title-post">
 
     {{post.title}}
 
