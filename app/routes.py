@@ -5,10 +5,11 @@ from app.models import User, Post
 
 from flask_login import current_user, login_user, logout_user
 
+
 @app.route('/')
 @app.route('/index')
 def index():
-    posts = Post.query.filter(Post.is_active).order_by(Post.timestamp.desc()).limit(5).all()
+    posts = Post.get(limit=5)
     for post in posts:
         post.body = support.first_paragraph(post.body)
     return render_template('index.html', posts=posts)
@@ -20,7 +21,7 @@ def login():
         return redirect(url_for('index'))
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
+        user = User.get_first(username=form.username.data)
         if user is None or not user.check_password(form.password.data):
             flash('Неверный логин или пароль', 'alert')
             return redirect(url_for('login'))
