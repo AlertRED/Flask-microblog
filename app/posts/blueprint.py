@@ -58,7 +58,7 @@ def restore(slug):
     if post:
         post.update(is_active=True)
         flash('Пост восстановлен', 'success')
-    return redirect(url_for("index"))
+    return redirect(url_for("posts.basket"))
 
 
 @posts.route('/<slug>/to_basket/', methods=['POST', 'GET'])
@@ -80,7 +80,7 @@ def delete(slug):
     if post:
         post.destroy()
     flash('Пост успешно удален', 'success')
-    return redirect(url_for("index"))
+    return redirect(url_for("posts.basket"))
 
 
 @posts.route('/')
@@ -92,7 +92,6 @@ def all_posts():
 
 
 @posts.route('/basket')
-@admin_only
 def basket():
     posts = Post.get(is_active=False)
     for post in posts:

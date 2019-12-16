@@ -196,9 +196,11 @@ class User(UserMixin, db.Model):
             filters['is_active'] = is_active
         return User.query.filter_by(**filters).first()
 
-    def update(self, username=__SKIP):
+    def update(self, username=__SKIP, is_active=__SKIP):
         if username != User.__SKIP:
             self.username = username
+        if is_active != User.__SKIP:
+            self.is_active = is_active
         db.session.commit()
         return self
 
@@ -225,7 +227,6 @@ class Tag(db.Model):
     __SKIP = object()
 
     posts = relationship("Post", secondary=post_tags, back_populates="tags")
-
 
     def __init__(self, *args, **kwargs):
         super(Tag, self).__init__(*args, **kwargs)
@@ -266,7 +267,7 @@ class Tag(db.Model):
             filters['is_active'] = is_active
         if timestamp != Tag.__SKIP:
             filters['timestamp'] = timestamp
-        return Tag.query.filter_by(**filters).first_or_404()
+        return Tag.query.filter_by(**filters).first()
 
     def update(self, name=__SKIP, slug=__SKIP, is_active=__SKIP, timestamp=__SKIP):
         if name != Tag.__SKIP:
@@ -277,18 +278,15 @@ class Tag(db.Model):
             self.is_active = is_active
         if timestamp != Tag.__SKIP:
             self.timestamp = timestamp
-        db.session.add(self)
         db.session.commit()
         return self
 
     def delete(self):
         self.is_active = False
-        db.session.add(self)
         db.session.commit()
         return self
 
     def destroy(self):
-        self.is_active = False
         db.session.delete(self)
         db.session.commit()
 
@@ -306,10 +304,9 @@ class Post(db.Model):
     body = db.Column(db.String(65536))
     slug = db.Column(db.String(255), unique=True)
     __SKIP = object()
-
     is_active = db.Column(db.Boolean, default=True)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-    # tags = db.relationship('Tag', secondary=post_tags, backref=db.backref('posts', lazy='dynamic'))
+
     tags = relationship("Tag", secondary=post_tags, back_populates="posts")
 
     def __init__(self, *args, **kwargs):
@@ -320,7 +317,7 @@ class Post(db.Model):
     def create(title, body, timestamp):
         if Post.get_first(title=title):
             raise Exception("Пост с таким названием уже существует")
-        post = Post(title, body, timestamp)
+        post = Post(title=title, body=body, timestamp=timestamp)
         db.session.add(post)
         db.session.commit()
         return post
@@ -338,7 +335,7 @@ class Post(db.Model):
             filters['is_active'] = is_active
         if timestamp != Post.__SKIP:
             filters['timestamp'] = timestamp
-        return Post.query.filter_by(**filters).first_or_404()
+        return Post.query.filter_by(**filters).first()
 
     @staticmethod
     def get(title=__SKIP, body=__SKIP, slug=__SKIP, is_active=__SKIP, timestamp=__SKIP, limit=None) -> list:
@@ -366,18 +363,15 @@ class Post(db.Model):
             self.is_active = is_active
         if timestamp != Post.__SKIP:
             self.timestamp = timestamp
-        db.session.add(self)
         db.session.commit()
         return self
 
     def delete(self):
         self.is_active = False
-        db.session.add(self)
         db.session.commit()
         return self
 
     def destroy(self):
-        self.is_active = False
         db.session.delete(self)
         db.session.commit()
 
