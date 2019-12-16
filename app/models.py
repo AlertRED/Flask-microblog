@@ -323,6 +323,7 @@ class Post(db.Model):
         post = Post(title, body, timestamp)
         db.session.add(post)
         db.session.commit()
+        return post
 
     @staticmethod
     def get_first(title=__SKIP, body=__SKIP, slug=__SKIP, is_active=__SKIP, timestamp=__SKIP):
