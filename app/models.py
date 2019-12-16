@@ -1,4 +1,7 @@
 from datetime import datetime
+
+from sqlalchemy.orm import relationship
+
 from app import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
@@ -21,6 +24,126 @@ post_tags = db.Table('post_tags',
                      db.Column('tag_id', db.Integer, db.ForeignKey('tag.id'))
                      )
 
+user_role = db.Table('user_role',
+                     db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
+                     db.Column('role_id', db.Integer, db.ForeignKey('role.id'))
+                     )
+
+role_rule = db.Table('role_rule',
+                     db.Column('role_id', db.Integer, db.ForeignKey('role.id')),
+                     db.Column('rule_id', db.Integer, db.ForeignKey('rule.id'))
+                     )
+
+
+class Rule(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(32), index=True, unique=True, nullable=False)
+    is_active = db.Column(db.Boolean, default=True)
+    __SKIP = object()
+    roles = relationship("Role", secondary=role_rule, back_populates="rules")
+
+    def __init__(self, *args, **kwargs):
+        super(Rule, self).__init__(*args, **kwargs)
+
+    def add_role(self, *args):
+        self.roles += args
+        db.session.commit()
+        return self
+
+    @staticmethod
+    def create(name):
+        if Rule.get_first(name):
+            raise Exception('Правило уже существует')
+        rule = Rule(name=name)
+        db.session.add(rule)
+        db.session.commit()
+        return rule
+
+    @staticmethod
+    def get(name=__SKIP) -> list:
+        filters = dict()
+        if name != Rule.__SKIP:
+            filters['name'] = name
+        return Rule.query.filter_by(**filters).all()
+
+    @staticmethod
+    def get_first(name=__SKIP):
+        filters = dict()
+        if name != Rule.__SKIP:
+            filters['name'] = name
+        return Rule.query.filter_by(**filters).first()
+
+    def update(self, name=__SKIP):
+        if name != Rule.__SKIP:
+            self.name = name
+        db.session.commit()
+        return self
+
+    def delete(self):
+        self.is_active = False
+        db.session.commit()
+        return self
+
+    def destroy(self):
+        db.session.delete(self)
+        db.session.commit()
+
+
+class Role(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(32), index=True, unique=True, nullable=False)
+    is_active = db.Column(db.Boolean, default=True)
+    __SKIP = object()
+
+    rules = relationship("Rule", secondary=role_rule, back_populates="roles")
+    users = relationship("User", secondary=user_role, back_populates="roles")
+
+    def __init__(self, *args, **kwargs):
+        super(Role, self).__init__(*args, **kwargs)
+
+    def add_rule(self, *args):
+        self.rules += args
+        db.session.commit()
+        return self
+
+    @staticmethod
+    def create(name):
+        if Role.get_first(name):
+            raise Exception('Роль уже существует')
+        role = Role(name=name)
+        db.session.add(role)
+        db.session.commit()
+        return role
+
+    @staticmethod
+    def get(name=__SKIP) -> list:
+        filters = dict()
+        if name != Role.__SKIP:
+            filters['name'] = name
+        return Role.query.filter_by(**filters).all()
+
+    @staticmethod
+    def get_first(name=__SKIP):
+        filters = dict()
+        if name != Role.__SKIP:
+            filters['name'] = name
+        return Role.query.filter_by(**filters).first()
+
+    def update(self, name=__SKIP):
+        if name != Role.__SKIP:
+            self.name = name
+        db.session.commit()
+        return self
+
+    def delete(self):
+        self.is_active = False
+        db.session.commit()
+        return self
+
+    def destroy(self):
+        db.session.delete(self)
+        db.session.commit()
+
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -29,6 +152,13 @@ class User(UserMixin, db.Model):
     is_active = db.Column(db.Boolean, default=True)
     __SKIP = object()
 
+    roles = relationship("Role", secondary=user_role, back_populates="users")
+
+    def add_role(self, *args):
+        User.roles += args
+        db.session.commit()
+        return self
+
     def __set_password(self, password):
         self.password_hash = generate_password_hash(password)
 
@@ -36,14 +166,14 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.password_hash, password)
 
     def __init__(self, *args, **kwargs):
-        kwargs['password_hash'] = kwargs.get
         super(User, self).__init__(*args, **kwargs)
+        self.__set_password(kwargs['password_hash'])
 
     @staticmethod
     def create(username, password):
         if User.get_first(username):
             raise Exception('Пользователь уже существует')
-        user = User(username, password)
+        user = User(username=username, password=password)
         db.session.add(user)
         db.session.commit()
         return user
@@ -69,18 +199,15 @@ class User(UserMixin, db.Model):
     def update(self, username=__SKIP):
         if username != User.__SKIP:
             self.username = username
-        db.session.add(self)
         db.session.commit()
         return self
 
     def delete(self):
         self.is_active = False
-        db.session.add(self)
         db.session.commit()
         return self
 
     def destroy(self):
-        self.is_active = False
         db.session.delete(self)
         db.session.commit()
 
@@ -97,26 +224,27 @@ class Tag(db.Model):
     color = db.Column(db.String(8))
     __SKIP = object()
 
+    posts = relationship("Post", secondary=post_tags, back_populates="tags")
+
+
     def __init__(self, *args, **kwargs):
         super(Tag, self).__init__(*args, **kwargs)
         self.generate_slug()
 
     @staticmethod
-    def create(title, timestamp):
-        if Tag.get_first(title=title):
+    def create(name, timestamp):
+        if Tag.get_first(name=name):
             raise Exception("Тег уже существует")
-        tag = Tag(title, timestamp)
+        tag = Tag(name, timestamp)
         db.session.add(tag)
         db.session.commit()
         return tag
 
     @staticmethod
-    def get(title=__SKIP, body=__SKIP, slug=__SKIP, is_active=__SKIP, timestamp=__SKIP) -> list:
+    def get(name=__SKIP, slug=__SKIP, is_active=__SKIP, timestamp=__SKIP) -> list:
         filters = dict()
-        if title != Tag.__SKIP:
-            filters['title'] = title
-        if body != Tag.__SKIP:
-            filters['body'] = body
+        if name != Tag.__SKIP:
+            filters['name'] = name
         if slug != Tag.__SKIP:
             filters['slug'] = slug
         if is_active != Tag.__SKIP:
@@ -126,10 +254,10 @@ class Tag(db.Model):
         return Tag.query.filter_by(**filters).order_by(Tag.timestamp.desc()).all()
 
     @staticmethod
-    def get_first(title=__SKIP, body=__SKIP, slug=__SKIP, is_active=__SKIP, timestamp=__SKIP):
+    def get_first(name=__SKIP, body=__SKIP, slug=__SKIP, is_active=__SKIP, timestamp=__SKIP):
         filters = dict()
-        if title != Tag.__SKIP:
-            filters['title'] = title
+        if name != Tag.__SKIP:
+            filters['name'] = name
         if body != Tag.__SKIP:
             filters['body'] = body
         if slug != Tag.__SKIP:
@@ -140,11 +268,9 @@ class Tag(db.Model):
             filters['timestamp'] = timestamp
         return Tag.query.filter_by(**filters).first_or_404()
 
-    def update(self, title=__SKIP, body=__SKIP, slug=__SKIP, is_active=__SKIP, timestamp=__SKIP):
-        if title != Tag.__SKIP:
-            self.title = title
-        if body != Tag.__SKIP:
-            self.body = body
+    def update(self, name=__SKIP, slug=__SKIP, is_active=__SKIP, timestamp=__SKIP):
+        if name != Tag.__SKIP:
+            self.name = name
         if slug != Tag.__SKIP:
             self.slug = slug
         if is_active != Tag.__SKIP:
@@ -183,7 +309,8 @@ class Post(db.Model):
 
     is_active = db.Column(db.Boolean, default=True)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-    tags = db.relationship('Tag', secondary=post_tags, backref=db.backref('posts', lazy='dynamic'))
+    # tags = db.relationship('Tag', secondary=post_tags, backref=db.backref('posts', lazy='dynamic'))
+    tags = relationship("Tag", secondary=post_tags, back_populates="posts")
 
     def __init__(self, *args, **kwargs):
         super(Post, self).__init__(*args, **kwargs)
