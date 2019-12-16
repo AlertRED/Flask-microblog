@@ -9,7 +9,7 @@ from flask_login import current_user, login_user, logout_user
 @app.route('/')
 @app.route('/index')
 def index():
-    posts = Post.get(limit=5)
+    posts = Post.get(is_active=True, limit=5)
     for post in posts:
         post.body = support.first_paragraph(post.body)
     return render_template('index.html', posts=posts)
