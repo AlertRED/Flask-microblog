@@ -1,7 +1,5 @@
 from datetime import datetime
-
 from sqlalchemy.orm import relationship
-
 from app import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
@@ -20,91 +18,27 @@ def slugify(s):
 
 
 post_tags = db.Table('post_tags',
-                     db.Column('post_id', db.Integer, db.ForeignKey('post.id')),
-                     db.Column('tag_id', db.Integer, db.ForeignKey('tag.id'))
+                     db.Column('post_id', db.Integer, db.ForeignKey('posts.id')),
+                     db.Column('tag_id', db.Integer, db.ForeignKey('tags.id'))
                      )
 
-user_role = db.Table('user_role',
-                     db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
-                     db.Column('role_id', db.Integer, db.ForeignKey('role.id'))
+user_role = db.Table('user_roles',
+                     db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
+                     db.Column('role_id', db.Integer, db.ForeignKey('roles.id'))
                      )
-
-role_rule = db.Table('role_rule',
-                     db.Column('role_id', db.Integer, db.ForeignKey('role.id')),
-                     db.Column('rule_id', db.Integer, db.ForeignKey('rule.id'))
-                     )
-
-
-class Rule(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(32), index=True, unique=True, nullable=False)
-    is_active = db.Column(db.Boolean, default=True)
-    __SKIP = object()
-    roles = relationship("Role", secondary=role_rule, back_populates="rules")
-
-    def __init__(self, *args, **kwargs):
-        super(Rule, self).__init__(*args, **kwargs)
-
-    def add_role(self, *args):
-        self.roles += args
-        db.session.commit()
-        return self
-
-    @staticmethod
-    def create(name):
-        if Rule.get_first(name):
-            raise Exception('Правило уже существует')
-        rule = Rule(name=name)
-        db.session.add(rule)
-        db.session.commit()
-        return rule
-
-    @staticmethod
-    def get(name=__SKIP) -> list:
-        filters = dict()
-        if name != Rule.__SKIP:
-            filters['name'] = name
-        return Rule.query.filter_by(**filters).all()
-
-    @staticmethod
-    def get_first(name=__SKIP):
-        filters = dict()
-        if name != Rule.__SKIP:
-            filters['name'] = name
-        return Rule.query.filter_by(**filters).first()
-
-    def update(self, name=__SKIP):
-        if name != Rule.__SKIP:
-            self.name = name
-        db.session.commit()
-        return self
-
-    def delete(self):
-        self.is_active = False
-        db.session.commit()
-        return self
-
-    def destroy(self):
-        db.session.delete(self)
-        db.session.commit()
 
 
 class Role(db.Model):
+    __tablename__ = 'roles'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(32), index=True, unique=True, nullable=False)
     is_active = db.Column(db.Boolean, default=True)
     __SKIP = object()
 
-    rules = relationship("Rule", secondary=role_rule, back_populates="roles")
     users = relationship("User", secondary=user_role, back_populates="roles")
 
     def __init__(self, *args, **kwargs):
         super(Role, self).__init__(*args, **kwargs)
-
-    def add_rule(self, *args):
-        self.rules += args
-        db.session.commit()
-        return self
 
     @staticmethod
     def create(name):
@@ -146,6 +80,7 @@ class Role(db.Model):
 
 
 class User(UserMixin, db.Model):
+    __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True, nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
@@ -154,10 +89,14 @@ class User(UserMixin, db.Model):
 
     roles = relationship("Role", secondary=user_role, back_populates="users")
 
-    def add_role(self, *args):
-        User.roles += args
+    def add_role(self, *roles):
+        self.roles += roles
         db.session.commit()
         return self
+
+    def check_role(self, *roles):
+        list_roles = [Role.get_first(role_name) for role_name in roles]
+        return bool(set(list_roles) & set(self.roles))
 
     def __set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -167,13 +106,13 @@ class User(UserMixin, db.Model):
 
     def __init__(self, *args, **kwargs):
         super(User, self).__init__(*args, **kwargs)
-        self.__set_password(kwargs['password_hash'])
 
     @staticmethod
     def create(username, password):
         if User.get_first(username):
             raise Exception('Пользователь уже существует')
-        user = User(username=username, password=password)
+        user = User(username=username)
+        user.__set_password(password)
         db.session.add(user)
         db.session.commit()
         return user
@@ -218,6 +157,7 @@ class User(UserMixin, db.Model):
 
 
 class Tag(db.Model):
+    __tablename__ = 'tags'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), unique=True, nullable=False)
     slug = db.Column(db.String(100), unique=True)
@@ -299,6 +239,7 @@ class Tag(db.Model):
 
 
 class Post(db.Model):
+    __tablename__ = 'posts'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255))
     body = db.Column(db.String(65536))
