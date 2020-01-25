@@ -10,20 +10,40 @@
 
 
 <div class="post-form">
-	<form action="" method="post" novalidate>
-		{{ form.hidden_tag() }}
-		<p>
-			{{ form.title(size=64) }}
-		</p>
-		<p>
-			{{ form.body }}
-		</p>
-		<p>{{ form.submit(value=button, class='submit_button') }}</p>
-	</form>
-	{{ ckeditor.load() }}
-	{{ ckeditor.config(name='body') }}
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+
+        <p class="form-header-2">{{ form.title.label }}</p>
+        {{ form.title(size=64) }}
+
+        <p>{{ form.body.label }}</p>
+        {{ form.body }}
+
+        <p>{{ form.labels.label }}</p>
+
+        <div id="container">
+                <div id="content">
+                    <div class="side-by-side clearfix">
+                        <div>
+                            {{ form.labels(size=64, class="chosen-select") }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <script src="/static/chosen_v1.8.7/docsupport/jquery-3.2.1.min.js"></script>
+        <script src="/static/chosen_v1.8.7/chosen.jquery.js"></script>
+        <script src="/static/chosen_v1.8.7/docsupport/init.js" charset="utf-8"></script>
+        <p>{{ form.submit(value=button, class='submit_button') }}</p>
+    </form>
+    {{ ckeditor.load() }}
+    {{ ckeditor.config(name='body') }}
+
+    <form>
+
+    </form>
 
 </div>
+
 
 {% endblock %}
 

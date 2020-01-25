@@ -1,10 +1,10 @@
 from functools import wraps
-
 from flask import render_template, Blueprint, request, flash, redirect, url_for
 from app.models import Post, Tag
 from app import db, support
 from flask_login import current_user, login_required
 from app.forms import PostForm
+from datetime import datetime
 
 posts = Blueprint('posts', __name__, template_folder='templates')
 
@@ -26,16 +26,33 @@ def admin_only(foo):
 @admin_only
 def create_post():
     if request.method == 'POST':
-        title, body, timestamp = request.form['title'], request.form['body'], request.form['timestamp']
+        title, body, timestamp = request.form['title'], request.form['body'],  datetime.utcnow() #request.form['timestamp']
+        tags = [Tag.get_first(id=tag_id) for tag_id in request.form.getlist('labels')]
         try:
-            Post.create(title=title, body=body, timestamp=timestamp)  # , tags=[tag]
+            Post.create(title=title, body=body, timestamp=timestamp, tags=tags)
         except Exception as e:
             flash(str(e), 'alert')
         else:
             flash('Пост успешно выложен', 'success')
         return redirect(url_for('index'))
     form = PostForm()
+    form.labels.choices = [(tag.id, tag.name) for tag in Tag.get()]
     return render_template('edit_post.html', form=form, title='Создание поста', button='Создать')
+
+
+@posts.route('/tag/<slug>', methods=['GET'])
+@admin_only
+def tag_posts(slug):
+    tag = Tag.get_first(slug=slug)
+    posts = Post.get(tags=[tag])
+    return render_template('all_posts.html', posts=posts)
+
+
+@posts.route('/tags', methods=['GET'])
+@admin_only
+def tags():
+    tags = Tag.get(is_active=True)
+    return render_template('tags.html', tags=tags)
 
 
 @posts.route('/<slug>', methods=['GET'])

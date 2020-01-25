@@ -1,11 +1,12 @@
 <html>
 <head>
     <link rel="shortcut icon" href="/static/images/icon.png" type="png">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_ico.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='chosen_v1.8.7/chosen.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
     <link rel="preload" href="{{ url_for('static', filename='font/charter-regular.woff2') }}" as="font"
           type="font/woff2">
-    <script src="/static/js/support.js"></script>
 
     <title>
         {% block title %}
@@ -19,13 +20,14 @@
     <div>
         <span class="icon_admin icon_open-book"></span>
         Меню
-        <span id="chevron-down" class="icon_admin icon_chevron-small-down"></span>
-        <span id="chevron-up" class="icon_admin icon_chevron-small-up"></span>
+        <span id="menu_chevron-down" class="icon_admin icon_chevron-small-down"></span>
+        <span id="menu_chevron-up" class="icon_admin icon_chevron-small-up"></span>
     </div>
     <ul>
-        <li><a href="{{ url_for('posts.create_post') }}">Создать заметку</a></li>
-        <li><a href="{{ url_for('posts.basket') }}">Корзина</a></li>
-        <li><a href="{{ url_for('logout') }}">Выход</a></li>
+        <li><a href="{{ url_for('posts.create_post') }}"><div class="menu-item">Создать заметку</div></a></li>
+        <li><a href="{{ url_for('posts.create_post') }}"><div class="menu-item">Теги</div></a></li>
+        <li><a href="{{ url_for('posts.basket') }}"><div class="menu-item">Корзина</div></a></li>
+        <li><a href="{{ url_for('logout') }}"><div class="menu-item">Выход</div></a></li>
     </ul>
 </div>
 {% endif %}
@@ -49,5 +51,5 @@
 </div>
 </body>
 
-
+    <script src="/static/js/support.js"></script>
 </html>

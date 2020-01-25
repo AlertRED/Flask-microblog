@@ -98,7 +98,7 @@ input[type="submit"] {
 	font-weight: bold; 
 	height: 40px;
 	border-radius: 3px;	
-	font-size: 0.7em;
+	font-size: 14px;
 	border: none;
 	cursor: pointer;
 	width: 100%;
@@ -135,11 +135,25 @@ input[type="submit"] {
 	font-size: 0.7em;
 }
 
+.post-form p {
+    margin: 20px 0px 5px 5px;
+    font-size: 16px;
+}
+
+
 .post-form {
 	position: absolute;
 	width: 70%;
 	left: 50%;
 	transform: translate(-49%, 0%);
+}
+
+.post-form .chosen-container {
+    width: -webkit-fill-available !important;
+}
+
+.post-form .chosen-drop{
+    width: 30%;
 }
 
 .post-form textarea{
@@ -245,19 +259,19 @@ input[type="submit"] {
 	display: block;
 }
 
-#chevron-down {
+#menu_chevron-down {
     display: none;
 }
 
-#chevron-up {
+#menu_chevron-up {
     display: inline;
 }
 
-#menu:hover .icon_chevron-small-down{
+#menu:hover #menu_chevron-down{
    display: inline;
 }
 
-#menu:hover .icon_chevron-small-up{
+#menu:hover #menu_chevron-up{
    display: none;
 }
 
@@ -275,26 +289,28 @@ input[type="submit"] {
 }
 
 .menu li{
-    width: auto;
     background: #1f1d1d;
-	font-size: 12px;
-
 }
 
-.menu li a{
+.menu .menu-item{
+    width: auto;
+    background: inherit;
+    display: unset;
+	font-size: 12px;
     color: #fff;
     padding:2px 20px;
 	white-space:nowrap;
+	background-image: none;
+}
+
+.menu li a{
+    color: inherit;
 	text-decoration:none;
 	background-image: none;
-	background-image: none;
 }
-.menu li:hover a{
+
+.menu li:hover .menu-item{
     color: #27AE60;
-}
-
-.menu li:hover {
-
 }
 /*МЕНЮ*/
 
@@ -414,7 +430,19 @@ input[type="submit"] {
 	word-wrap: break-word;
 }
 
+.tags-post{
+    font-size: 12px;
+}
 
+.tag-post{
+    display: inline;
+    margin: 0px 3px 0px 3px;
+    padding: 0px 4px 0px 2px;
+    border: 1px solid #0e80c0;
+    color: white;
+    background: #0e80c0;
+    border-radius: 5px 0px;
+}
 
 pre {
 	white-space: pre-wrap;       /* css-3 */
