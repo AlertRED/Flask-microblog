@@ -173,10 +173,10 @@ class Tag(db.Model):
         self.generate_slug()
 
     @staticmethod
-    def create(name, timestamp):
+    def create(name, timestamp=datetime.utcnow()):
         if Tag.get_first(name=name):
             raise Exception("Тег уже существует")
-        tag = Tag(name, timestamp)
+        tag = Tag(name=name, timestamp=timestamp)
         db.session.add(tag)
         db.session.commit()
         return tag
@@ -195,8 +195,10 @@ class Tag(db.Model):
         return Tag.query.filter_by(**filters).order_by(Tag.timestamp.desc()).all()
 
     @staticmethod
-    def get_first(name=__SKIP, body=__SKIP, slug=__SKIP, is_active=__SKIP, timestamp=__SKIP):
+    def get_first(id=__SKIP, name=__SKIP, body=__SKIP, slug=__SKIP, is_active=__SKIP, timestamp=__SKIP):
         filters = dict()
+        if id != Tag.__SKIP:
+            filters['id'] = id
         if name != Tag.__SKIP:
             filters['name'] = name
         if body != Tag.__SKIP:
@@ -212,6 +214,7 @@ class Tag(db.Model):
     def update(self, name=__SKIP, slug=__SKIP, is_active=__SKIP, timestamp=__SKIP):
         if name != Tag.__SKIP:
             self.name = name
+            self.generate_slug()
         if slug != Tag.__SKIP:
             self.slug = slug
         if is_active != Tag.__SKIP:
@@ -255,10 +258,11 @@ class Post(db.Model):
         self.generate_slug()
 
     @staticmethod
-    def create(title, body, timestamp):
+    def create(title, body, timestamp, tags=None):
         if Post.get_first(title=title):
             raise Exception("Пост с таким названием уже существует")
         post = Post(title=title, body=body, timestamp=timestamp)
+        post.tags += tags if tags else []
         db.session.add(post)
         db.session.commit()
         return post
@@ -279,23 +283,28 @@ class Post(db.Model):
         return Post.query.filter_by(**filters).first()
 
     @staticmethod
-    def get(title=__SKIP, body=__SKIP, slug=__SKIP, is_active=__SKIP, timestamp=__SKIP, limit=None) -> list:
+    def get(title=__SKIP, body=__SKIP, slug=__SKIP, is_active=__SKIP, timestamp=__SKIP, tags=__SKIP,
+            limit=None) -> list:
         filters = dict()
         if title != Post.__SKIP:
             filters['title'] = title
         if body != Post.__SKIP:
             filters['body'] = body
+        if tags == Post.__SKIP:
+            tags = []
         if slug != Post.__SKIP:
             filters['slug'] = slug
         if is_active != Post.__SKIP:
             filters['is_active'] = is_active
         if timestamp != Post.__SKIP:
             filters['timestamp'] = timestamp
-        return Post.query.filter_by(**filters).order_by(Post.timestamp.desc()).limit(limit).all()
+        return Post.query.filter_by(**filters).filter(*[Post.tags.contains(tag) for tag in tags]).order_by(
+            Post.timestamp.desc()).limit(limit).all()
 
     def update(self, title=__SKIP, body=__SKIP, slug=__SKIP, is_active=__SKIP, timestamp=__SKIP):
         if title != Post.__SKIP:
             self.title = title
+            self.generate_slug()
         if body != Post.__SKIP:
             self.body = body
         if slug != Post.__SKIP:
