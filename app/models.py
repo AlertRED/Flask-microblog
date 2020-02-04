@@ -163,7 +163,7 @@ class Tag(db.Model):
     slug = db.Column(db.String(100), unique=True)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     is_active = db.Column(db.Boolean, default=True)
-    color = db.Column(db.String(8))
+    color = db.Column(db.String(7))
     __SKIP = object()
 
     posts = relationship("Post", secondary=post_tags, back_populates="tags")
@@ -173,10 +173,10 @@ class Tag(db.Model):
         self.generate_slug()
 
     @staticmethod
-    def create(name, timestamp=datetime.utcnow()):
+    def create(name, color):
         if Tag.get_first(name=name):
             raise Exception("Тег уже существует")
-        tag = Tag(name=name, timestamp=timestamp)
+        tag = Tag(name=name, color="#0e80c0" if color == "#000000" else color)
         db.session.add(tag)
         db.session.commit()
         return tag
@@ -211,10 +211,12 @@ class Tag(db.Model):
             filters['timestamp'] = timestamp
         return Tag.query.filter_by(**filters).first()
 
-    def update(self, name=__SKIP, slug=__SKIP, is_active=__SKIP, timestamp=__SKIP):
+    def update(self, name=__SKIP, slug=__SKIP, color=__SKIP, is_active=__SKIP, timestamp=__SKIP):
         if name != Tag.__SKIP:
             self.name = name
             self.generate_slug()
+        if color != Tag.__SKIP:
+            self.color = color
         if slug != Tag.__SKIP:
             self.slug = slug
         if is_active != Tag.__SKIP:
