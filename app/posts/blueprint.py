@@ -1,25 +1,11 @@
-from functools import wraps
 from flask import render_template, Blueprint, request, flash, redirect, url_for
 from app.models import Post, Tag
 from app import db, support
-from flask_login import current_user, login_required
 from app.forms import PostForm
 from datetime import datetime
+from app.support import admin_only
 
 posts = Blueprint('posts', __name__, template_folder='templates')
-
-
-def admin_only(foo):
-    @wraps(foo)
-    def check_is_admin(*args, **kwargs):
-        if not current_user.is_authenticated:
-            flash('Вы не авторизованы', 'alert')
-            return redirect(url_for('login'))
-        if not current_user.check_role('Admin'):
-            flash('У вас не достаточно прав', 'alert')
-            return redirect(url_for('index'))
-        return foo(*args, **kwargs)
-    return check_is_admin
 
 
 @posts.route('/create_post', methods=['POST', 'GET'])
@@ -38,21 +24,6 @@ def create_post():
     form = PostForm()
     form.labels.choices = [(tag.id, tag.name) for tag in Tag.get()]
     return render_template('edit_post.html', form=form, title='Создание поста', button='Создать')
-
-
-@posts.route('/tag/<slug>', methods=['GET'])
-@admin_only
-def tag_posts(slug):
-    tag = Tag.get_first(slug=slug)
-    posts = Post.get(tags=[tag])
-    return render_template('all_posts.html', posts=posts)
-
-
-@posts.route('/tags', methods=['GET'])
-@admin_only
-def tags():
-    tags = Tag.get(is_active=True)
-    return render_template('tags.html', tags=tags)
 
 
 @posts.route('/<slug>', methods=['GET'])
