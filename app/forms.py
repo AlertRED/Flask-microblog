@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, SelectMultipleField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectMultipleField, Field
 from wtforms.fields.html5 import DateField
 from wtforms.validators import DataRequired, InputRequired
 from flask_ckeditor import CKEditorField
@@ -20,4 +20,10 @@ class PostForm(FlaskForm):
     # timestamp = DateField(format='%Y-%m-%d', default=datetime.today)
     labels = SelectMultipleField("Метки")
     add_tag = SubmitField('Добавить')
+    submit = SubmitField('Создать')
+
+
+class TagForm(FlaskForm):
+    name = StringField("Название тега", validators=[InputRequired()])
+    color = StringField("Цвет тега", render_kw={"type": "color", "value": "#0e80c0"})
     submit = SubmitField('Создать')
