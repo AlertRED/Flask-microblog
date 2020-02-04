@@ -15,7 +15,8 @@ ckeditor = CKEditor(app)
 
 from app import routes, models
 from app.posts.blueprint import posts
+from app.tags.blueprint import tags
 
 ### Blueprints ###
 app.register_blueprint(posts, url_prefix='/blog')
-
+app.register_blueprint(tags, url_prefix='/tags')

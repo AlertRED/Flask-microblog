@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}
+Теги
+{% endblock %} 
+
+{% block content_title %}
+{% endblock %}
+
+{% block content %}
+    <form action="" method="post" novalidate>
+        <p class="form-header-2">{{ form.name.label }}: {{ form.name(size=16) }}</p>
+
+        <p class="form-header-2">{{ form.color.label }}: {{ form.color(size=64) }}</p>
+
+        <p>{{ form.submit(value=button, class='submit_button', size=32) }}</p>
+    </form>
+    <hr>
+    {% for tag in tags %}
+    <p>
+        <a class="tag-post" style="background: {{tag.color}}; border-color: {{tag.color}};" href='{{ url_for("tags.tag_posts", slug = tag.slug) }}'><i class="icon icon_tag"></i>{{tag.name}}</a>
+        {% if current_user.is_authenticated and current_user.check_role('Admin') %}
+        <button onClick='location.href="{{ url_for("tags.edit_tag", slug = tag.slug) }}"' class="settings-post"><i
+                class="icon icon_edit"></i>Изменить
+        </button>
+        {% if tag.is_active %}
+        <button onClick='location.href="{{ url_for("tags.delete", slug = tag.slug) }}"' class="settings-post"><i
+                class="icon icon_uninstall"></i>Удалить
+        </button>
+        {% else %}
+        <button onClick='location.href="{{ url_for("tags.restore", slug = tag.slug) }}"' class="settings-post"><i
+                class="icon icon_reply"></i>Восстановить
+        </button>
+        <button onClick='location.href="{{ url_for("tags.destroy", slug = tag.slug) }}"' class="settings-post"><i
+                class="icon icon_uninstall"></i>Удалить навсегда
+        </button>
+        {% endif %}
+        {% endif %}
+    </p>
+    {% endfor %}
+{% endblock %}
