@@ -77,7 +77,9 @@ a{
 input[type="text"], input[type="password"], input[type="date"] {
 	font-family: "Charter", "Georgia", "Times", serif;
 	border: 1px solid #06c;
-	border-radius: 6px;
+	border-top: none;
+    border-left: none;
+    border-right: none;
 	height: 40px;
 	padding-left: 20px;
 	font-size: 0.9em;
@@ -101,7 +103,7 @@ input[type="submit"] {
 	font-size: 14px;
 	border: none;
 	cursor: pointer;
-	width: 100%;
+	width: 290px;
 }
 
 
@@ -113,9 +115,8 @@ input[type="submit"] {
 }
 
 .submit_button:hover {
-	transition: .25s;
+	transition: .2s;
 	background-color: #c04;
-	border:1px solid;
 }
 
 .login {
@@ -431,10 +432,11 @@ input[type="submit"] {
 }
 
 .tags-post{
-    font-size: 12px;
+    font-size: 0;
 }
 
 .tag-post{
+    font-size: 12px;
     display: inline;
     margin: 0px 3px 0px 3px;
     padding: 0px 4px 0px 2px;
