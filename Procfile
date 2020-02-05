@@ -1,1 +1,1 @@
-web: gunicorn microblog:flask_app
+web: gunicorn microblog:app
