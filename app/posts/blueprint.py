@@ -42,11 +42,12 @@ def edit_post(slug):
         title, body, timestamp = request.form['title'], request.form['body'], datetime.utcnow()
         tags = [Tag.get_first(id=tag_id) for tag_id in request.form.getlist('tags')]
         post.update(title=title, body=body, timestamp=timestamp, tags=tags)
+
         return redirect(url_for("posts.post_detail", slug=post.slug))
     form = PostForm(obj=post)
     all_tags = Tag.get()
     form.tags.choices = [(tag.id, tag.name) for tag in all_tags]
-    form.tags.process_data(str(i+1) for i, tag in enumerate(all_tags) if tag in post.tags)
+    form.tags.process_data(str(tag.id) for tag in all_tags if tag in post.tags)
     return render_template('edit_post.html', post=post, form=form, title='Изменение поста', button='Сохранить')
 
 
