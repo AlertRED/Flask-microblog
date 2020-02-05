@@ -13,7 +13,7 @@ posts = Blueprint('posts', __name__, template_folder='templates')
 def create_post():
     if request.method == 'POST':
         title, body, timestamp = request.form['title'], request.form['body'],  datetime.utcnow() #request.form['timestamp']
-        tags = [Tag.get_first(id=tag_id) for tag_id in request.form.getlist('labels')]
+        tags = [Tag.get_first(id=tag_id) for tag_id in request.form.getlist('tags')]
         try:
             Post.create(title=title, body=body, timestamp=timestamp, tags=tags)
         except Exception as e:
@@ -22,7 +22,7 @@ def create_post():
             flash('Пост успешно выложен', 'success')
         return redirect(url_for('index'))
     form = PostForm()
-    form.labels.choices = [(tag.id, tag.name) for tag in Tag.get()]
+    form.tags.choices = [(tag.id, tag.name) for tag in Tag.get()]
     return render_template('edit_post.html', form=form, title='Создание поста', button='Создать')
 
 
@@ -37,11 +37,15 @@ def post_detail(slug):
 def edit_post(slug):
     post = Post.get_first(slug=slug)
     if request.method == 'POST':
-        form = PostForm(formdate=request.form, obj=post)
-        form.populate_obj(post)
-        db.session.commit()
+        # form = PostForm(formdate=request.form, obj=post)
+        # form.populate_obj(post)
+        title, body, timestamp = request.form['title'], request.form['body'], datetime.utcnow()
+        tags = [Tag.get_first(id=tag_id) for tag_id in request.form.getlist('tags')]
+        post.update(title=title, body=body, timestamp=timestamp, tags=tags)
+
         return redirect(url_for("posts.post_detail", slug=post.slug))
     form = PostForm(obj=post)
+    form.tags.choices = [(tag.id, tag.name) for tag in Tag.get()]
     return render_template('edit_post.html', post=post, form=form, title='Изменение поста', button='Сохранить')
 
 

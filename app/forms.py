@@ -18,7 +18,7 @@ class PostForm(FlaskForm):
     title = StringField("Заголовок", validators=[InputRequired()], render_kw={"placeholder": "Введите заголовок поста"})
     body = CKEditorField("Текст", validators=[DataRequired()])
     # timestamp = DateField(format='%Y-%m-%d', default=datetime.today)
-    labels = SelectMultipleField("Метки")
+    tags = SelectMultipleField("Метки")
     add_tag = SubmitField('Добавить')
     submit = SubmitField('Создать')
 
