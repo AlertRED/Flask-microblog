@@ -1,5 +1,7 @@
 from app import app
-app.run()
+
+if __name__ == '__main__':
+    app.run()
 # ### ADMIN ###
 #
 # from app.models import *
