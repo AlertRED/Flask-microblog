@@ -8,17 +8,17 @@ from flask_ckeditor import CKEditorField
 
 
 class LoginForm(FlaskForm):
-    username = StringField(validators=[DataRequired()], render_kw={"placeholder": "Логин"})
-    password = PasswordField(validators=[DataRequired()], render_kw={"placeholder": "Пароль"})
+    username = StringField(validators=[InputRequired('Это поле обязательно')], render_kw={"placeholder": "Логин"})
+    password = PasswordField(validators=[InputRequired('Это поле обязательно')], render_kw={"placeholder": "Пароль"})
     remember_me = BooleanField('Запомнить меня')
     submit = SubmitField('Войти')
 
 
 class PostForm(FlaskForm):
-    title = StringField("Заголовок", validators=[InputRequired()], render_kw={"placeholder": "Введите заголовок поста"})
-    body = CKEditorField("Текст", validators=[DataRequired()])
-    # timestamp = DateField(format='%Y-%m-%d', default=datetime.today)
-    tags = SelectMultipleField("Метки")
+    title = StringField("Заголовок", validators=[InputRequired('Это поле обязательно')], render_kw={"placeholder": "Введите заголовок поста"})
+    body = CKEditorField("Текст", validators=[InputRequired('Это поле обязательно')])
+    timestamp = DateField("Дата", format='%Y-%m-%d', default=datetime.today)
+    tags = SelectMultipleField("Теги", coerce=int)
     add_tag = SubmitField('Добавить')
     submit = SubmitField('Создать')
 

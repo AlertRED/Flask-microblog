@@ -11,18 +11,21 @@ posts = Blueprint('posts', __name__, template_folder='templates')
 @posts.route('/create_post', methods=['POST', 'GET'])
 @admin_only
 def create_post():
-    if request.method == 'POST':
-        title, body, timestamp = request.form['title'], request.form['body'],  datetime.utcnow() #request.form['timestamp']
-        tags = [Tag.get_first(id=tag_id) for tag_id in request.form.getlist('tags')]
-        try:
-            Post.create(title=title, body=body, timestamp=timestamp, tags=tags)
-        except Exception as e:
-            flash(str(e), 'alert')
-        else:
-            flash('Пост успешно выложен', 'success')
-        return redirect(url_for('index'))
-    form = PostForm()
+    form = PostForm(request.form)
     form.tags.choices = [(tag.id, tag.name) for tag in Tag.get()]
+    if request.method == 'POST':
+        if form.validate():
+            title, body, timestamp = form['title'].data, form['body'].data, form['timestamp'].data
+            tags = [Tag.get_first(id=int(tag_id)) for tag_id in form.tags.data]
+            try:
+                Post.create(title=title, body=body, timestamp=timestamp, tags=tags)
+            except Exception as e:
+                flash(str(e), 'alert')
+            else:
+                flash('Пост успешно выложен', 'success')
+                return redirect(url_for('index'))
+        else:
+            flash('Не все поля заполнены', 'alert')
     return render_template('edit_post.html', form=form, title='Создание поста', button='Создать')
 
 

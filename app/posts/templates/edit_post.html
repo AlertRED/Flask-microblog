@@ -1,35 +1,39 @@
 {% extends "base.html" %}
 
+{% from "includes/errors.html" import error_field %}
 
 {% block title %}
 {{ title }}
 {% endblock %}
 
-
 {% block content %}
-
-
 <div class="post-form">
     <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
 
-        <p class="form-header-2">{{ form.title.label }}</p>
-        {{ form.title(size=64) }}
+        <div class="form-header-2">
+            <div id="title-grid">{{ form.title.label }} {{ form.title(size=64) }} {{ error_field(form.title) }}</div>
+            <div id="date-grid">{{ form.timestamp.label }} {{ form.timestamp }} {{ error_field(form.timestamp) }}</div>
+        </div>
+
 
         <p>{{ form.body.label }}</p>
         {{ form.body }}
+        {{ error_field(form.body) }}
+
 
         <p>{{ form.tags.label }}</p>
 
         <div id="container">
-                <div id="content">
-                    <div class="side-by-side clearfix">
-                        <div>
-                            {{ form.tags(size=64, class="chosen-select") }}
-                        </div>
+            <div id="content">
+                <div class="side-by-side clearfix">
+                    <div>
+                        {{ form.tags(size=64, class="chosen-select") }}
                     </div>
                 </div>
             </div>
+        </div>
+        {{ error_field(form.tags) }}
         <script src="/static/chosen_v1.8.7/docsupport/jquery-3.2.1.min.js"></script>
         <script src="/static/chosen_v1.8.7/chosen.jquery.js"></script>
         <script src="/static/chosen_v1.8.7/docsupport/init.js" charset="utf-8"></script>
@@ -37,13 +41,6 @@
     </form>
     {{ ckeditor.load() }}
     {{ ckeditor.config(name='body') }}
-
-    <form>
-
-    </form>
-
 </div>
-
-
 {% endblock %}
 
