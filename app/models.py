@@ -270,8 +270,10 @@ class Post(db.Model):
         return post
 
     @staticmethod
-    def get_first(title=__SKIP, body=__SKIP, slug=__SKIP, is_active=__SKIP, timestamp=__SKIP, tags=__SKIP):
+    def get_first(id=__SKIP, title=__SKIP, body=__SKIP, slug=__SKIP, is_active=__SKIP, timestamp=__SKIP, tags=__SKIP):
         filters = dict()
+        if id != Post.__SKIP:
+            filters['id'] = id
         if title != Post.__SKIP:
             filters['title'] = title
         if body != Post.__SKIP:
