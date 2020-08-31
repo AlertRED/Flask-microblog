@@ -45,6 +45,7 @@ def edit_post(slug):
         title, body, timestamp = request.form['title'], request.form['body'], datetime.utcnow()
         tags = [Tag.get_first(id=tag_id) for tag_id in request.form.getlist('tags')]
         post.update(title=title, body=body, timestamp=timestamp, tags=tags)
+
         return redirect(url_for("posts.post_detail", slug=post.slug))
     form = PostForm(obj=post)
     all_tags = Tag.get()

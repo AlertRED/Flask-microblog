@@ -1,5 +1,6 @@
 from flask import render_template, Blueprint, redirect, url_for, flash, request
 
+from app import support
 from app.forms import TagForm
 from app.models import Tag, Post
 from app.support import admin_only
@@ -8,10 +9,11 @@ tags = Blueprint('tags', __name__, template_folder='templates')
 
 
 @tags.route('/<slug>', methods=['GET'])
-@admin_only
 def tag_posts(slug):
     tag = Tag.get_first(slug=slug)
-    posts = Post.get(tags=[tag])
+    posts = Post.get(tags=[tag], is_active=True)
+    for post in posts:
+        post.body = support.first_paragraph(post.body)
     return render_template('all_posts.html', posts=posts)
 
 
