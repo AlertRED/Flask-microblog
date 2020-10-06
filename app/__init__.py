@@ -8,7 +8,7 @@ from flask_login import LoginManager
 from flask_ckeditor import CKEditor
 
 app = Flask(__name__)
-app.config.from_object(DevelopmentConfig)
+app.config.from_object(ProductionConfig)
 
 
 db = SQLAlchemy(app)
