@@ -42,7 +42,7 @@ def edit_post(slug):
     if request.method == 'POST':
         # form = PostForm(formdate=request.form, obj=post)
         # form.populate_obj(post)
-        title, body, timestamp = request.form['title'], request.form['body'], datetime.utcnow()
+        title, body, timestamp = request.form['title'], request.form['body'], datetime.strptime(request.form['timestamp'], '%Y-%m-%d')
         tags = [Tag.get_first(id=tag_id) for tag_id in request.form.getlist('tags')]
         post.update(title=title, body=body, timestamp=timestamp, tags=tags)
 
